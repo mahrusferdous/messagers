@@ -25,9 +25,6 @@ function SignUp() {
                     Sign Up
                 </button>
             </div>
-            <p className="forgot-password text-right">
-                Already registered <a href="/sign-in">sign in?</a>
-            </p>
         </form>
     );
 }
