@@ -2,6 +2,7 @@ package com.message.board.service;
 
 import com.message.board.entity.User;
 import com.message.board.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +24,16 @@ public class UserService {
     }
 
     public void saveUser(User user) {
-        userRepository.save(user);
+        if (!getUserByEmail(user.getEmail())) {
+            userRepository.save(user);
+        }
     }
 
     public User getUserByEmailAndPassword(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password).get();
+    }
+
+    public boolean getUserByEmail(String email) {
+        return userRepository.findByEmail(email).isPresent();
     }
 }
