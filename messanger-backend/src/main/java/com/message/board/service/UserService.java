@@ -18,11 +18,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public User getUserById(Long id) {
+        return userRepository.findById(id).get();
     }
 
     public void saveUser(User user) {
         userRepository.save(user);
+    }
+
+    public User getUserByEmailAndPassword(String email, String password) {
+        return userRepository.findByEmailAndPassword(email, password).get();
     }
 }

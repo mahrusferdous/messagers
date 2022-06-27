@@ -2,6 +2,7 @@ package com.message.board.controller;
 
 import com.message.board.entity.User;
 import com.message.board.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,18 +18,23 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/user")
+    @GetMapping("/user/all")
     private List<User> getAllUser() {
         return userService.getAllUser();
     }
 
     @GetMapping("/user/{id}")
-    private Optional<User> getUser(@PathVariable("id") Long id) {
+    private User getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    @GetMapping(value = "/user", params = {"email", "password"})
+    private User getUserByEmail(@RequestParam("email") String email, @RequestParam("password") String password) {
+        return userService.getUserByEmailAndPassword(email, password);
+    }
+
+    @PostMapping("/user/save")
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) {
         userService.saveUser(user);
         return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
     }
